@@ -23,9 +23,9 @@ data class CoolPoolItemWithTags(
         entityColumn = "id",
         associateBy = Junction(
             value = CoolPoolItemTagCrossRef::class,
-            parentColumn = "itemId",
-            entityColumn = "tagId",
+            parentColumn = "item_id",
+            entityColumn = "tag_id",
         )
     )
-    val tags: List<EmotionTagEntity> = emptyList(),
+    val tags: List<EmotionTagEntity> ,
 )
