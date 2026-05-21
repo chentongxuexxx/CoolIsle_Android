@@ -1,71 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <!-- 橙色加载进度条 -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:max="100"
-        android:progress="0"
-        android:progressTint="@color/primary"
-        android:progressBackgroundTint="@color/progress_bg"
-        android:visibility="gone" />
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <WebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <!-- 自定义错误页：默认隐藏 -->
-    <LinearLayout
-        android:id="@+id/errorView"
+    <!-- NavHostFragment：所有页面在此容器内切换 -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
+
+    <!-- BottomNavigationView：三 Tab 主导航 -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:background="@color/background"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="32dp"
-        android:visibility="gone">
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:itemActiveIndicatorStyle="@style/BottomNavIndicator" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/error_title"
-            android:textColor="@color/text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:text="@string/error_message"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/retryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="@color/primary"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:text="@string/error_retry"
-            android:textColor="@android:color/white" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -15,4 +15,10 @@
         <!-- Splash 结束后过渡到主主题 -->
         <item name="postSplashScreenTheme">@style/Theme.HuanDao</item>
     </style>
+
+    <!-- BottomNavigation 选中指示器 -->
+    <style name="BottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/primary</item>
+        <item name="android:padding">4dp</item>
+    </style>
 </resources>

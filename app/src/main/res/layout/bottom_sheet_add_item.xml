@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- 标题 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加消费念头"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <!-- 商品名 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_title_hint"
+            app:counterEnabled="true"
+            app:counterMaxLength="50"
+            app:boxStrokeColor="@color/primary"
+            app:hintTextColor="@color/primary"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="50"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 金额 + 品类 同行 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <!-- 金额（左 40%） -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/add_price_hint"
+                app:boxStrokeColor="@color/primary"
+                app:hintTextColor="@color/primary"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- 品类标签（右 60%，后续通过 ChipGroup 填充） -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chip_group_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:selectionRequired="false" />
+
+                </HorizontalScrollView>
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <!-- 情绪标签行 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/add_emotion_label"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_emotion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="false" />
+
+        </HorizontalScrollView>
+
+        <!-- 冷静期选择 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/add_cool_period_label"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_period"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:singleSelection="true"
+            app:selectionRequired="true" />
+
+        <!-- 换算结果展示区 -->
+        <LinearLayout
+            android:id="@+id/conversion_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:background="@drawable/bg_conversion_area"
+            android:padding="12dp"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_conversion_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/conversion_text"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                tools:text="≈ 27 杯奶茶——供参考&#10;≈ 11 顿工作餐——供参考" />
+
+        </LinearLayout>
+
+        <!-- 提交按钮「先放一放」 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/add_submit"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            app:cornerRadius="12dp"
+            app:backgroundTint="@color/primary"
+            android:enabled="false" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

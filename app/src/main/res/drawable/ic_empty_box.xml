@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 空状态图标：打开的盒子 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFDDDDDD"
+        android:pathData="M21,16V8C20.9996,7.64937 20.9071,7.30491 20.7315,7.00119C20.556,6.69746 20.3037,6.44526 20,6.27L13,2.27C12.6868,2.09338 12.3455,2.00195 12,2.00195C11.6545,2.00195 11.3132,2.09338 11,2.27L4,6.27C3.69626,6.44526 3.44398,6.69746 3.26846,7.00119C3.09294,7.30491 3.00036,7.64937 3,8V16C3.00036,16.3506 3.09294,16.6951 3.26846,16.9988C3.44398,17.3025 3.69626,17.5547 4,17.73L11,21.73C11.3132,21.9066 11.6545,21.9981 12,21.9981C12.3455,21.9981 12.6868,21.9066 13,21.73L20,17.73C20.3037,17.5547 20.556,17.3025 20.7315,16.9988C20.9071,16.6951 20.9996,16.3506 21,16Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,12L12,21M5,8L5,16L12,20L19,16V8L12,4L5,8Z" />
+    <path
+        android:fillColor="#FFCCCCCC"
+        android:pathData="M12,12L19,8M12,12L5,8" />
+</vector>

@@ -1,9 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ── 应用 ── -->
     <string name="app_name">缓岛</string>
     <string name="app_description">更清醒的自己</string>
-    <string name="web_url">https://t2hyptyq43t3m.ok.kimi.link/</string>
-    <string name="error_title">网络不给力</string>
-    <string name="error_message">请检查网络连接后下拉刷新重试</string>
-    <string name="error_retry">重新加载</string>
-    <string name="share_title">分享到</string>
+
+    <!-- ── Bottom Navigation ── -->
+    <string name="nav_cool_pool">冷静池</string>
+    <string name="nav_insights">洞察</string>
+    <string name="nav_profile">我的</string>
+
+    <!-- ── 冷静池列表 ── -->
+    <string name="pool_empty_title">这里很安静</string>
+    <string name="pool_empty_subtitle">放点什么进来吧</string>
+    <string name="pool_add_fab">添加消费念头</string>
+    <string name="pool_swipe_buy">我决定买了</string>
+    <string name="pool_swipe_pass">不再考虑</string>
+    <string name="pool_delete_confirm">确定要移除这条记录吗？</string>
+    <string name="pool_deleted_toast">已移除</string>
+    <string name="pool_decided_toast">决定了就好</string>
+    <string name="pool_pass_toast">这个念头放下了</string>
+
+    <!-- ── 添加面板 ── -->
+    <string name="add_title_hint">想买什么？</string>
+    <string name="add_price_hint">预估金额（可选）</string>
+    <string name="add_category_label">品类</string>
+    <string name="add_emotion_label">此刻的感受（可选，最多 3 个）</string>
+    <string name="add_cool_period_label">缓冲时长</string>
+    <string name="add_submit">先放一放</string>
+    <string name="add_custom_tag_hint">自定义标签</string>
+    <string name="add_custom_tag_add">添加</string>
+    <string name="add_custom_tag_limit">自定义标签已达上限（20 个）</string>
+    <string name="add_title_required">请输入商品名称</string>
+
+    <!-- ── 实物换算 ── -->
+    <string name="conversion_format">≈ %1$s%2$s——供参考</string>
+    <string name="conversion_per_unit">%.0f 个</string>
+    <string name="conversion_separator">\n</string>
+
+    <!-- ── 冷静期时长显示 ── -->
+    <string name="duration_minutes">已缓冲 %d 分钟</string>
+    <string name="duration_hours">已缓冲 %d 小时</string>
+    <string name="duration_days">已缓冲 %d 天</string>
+
+    <!-- ── 卡片状态 ── -->
+    <string name="status_cooling">缓冲中</string>
+    <string name="status_expired">到期待决定</string>
+    <string name="status_decided_buy">已决定购买</string>
+    <string name="status_decided_pass">已放下</string>
+
+    <!-- ── 决策引导页 ── -->
+    <string name="decision_title">现在的你还想买吗？</string>
+    <string name="decision_subtitle">冷静期已过，花一点时间问问自己</string>
+    <string name="decision_buy">我还是想买</string>
+    <string name="decision_pass">好像没那么想了</string>
+    <string name="decision_wait">再等等</string>
+    <string name="decision_reason_hint">写下一两句此刻的想法（可选）</string>
+    <string name="decision_reset_toast">不急，慢慢想</string>
+
+    <!-- ── 历史记录 ── -->
+    <string name="history_title">历史记录</string>
+    <string name="history_filter_all">全部</string>
+    <string name="history_filter_buy">已购买</string>
+    <string name="history_filter_pass">已放下</string>
+    <string name="history_empty">还没有已决定的条目</string>
+
+    <!-- ── 洞察页（P1 占位） ── -->
+    <string name="insights_coming_title">洞察报告即将上线</string>
+    <string name="insights_coming_subtitle">我们将帮你发现情绪与消费的有趣关联</string>
+
+    <!-- ── 个人中心（P1 占位 + 数据导出） ── -->
+    <string name="profile_title">我的</string>
+    <string name="profile_export_data">导出我的数据</string>
+    <string name="profile_export_desc">将你的所有冷静池数据导出为 JSON 文件</string>
+    <string name="profile_export_success">数据已导出</string>
+    <string name="profile_export_failed">导出失败，请重试</string>
+    <string name="profile_coming_features">更多功能即将上线</string>
+    <string name="profile_app_version">缓岛 V1.0</string>
+
+    <!-- ── 通知 ── -->
+    <string name="notif_channel_expiry_name">冷静期提醒</string>
+    <string name="notif_channel_expiry_desc">当冷静期到期时，温和地提醒你回来看看</string>
+    <string name="notif_channel_weekly_name">周报</string>
+    <string name="notif_channel_weekly_desc">每周一次的消费洞察摘要</string>
+    <string name="notif_channel_achievement_name">成就</string>
+    <string name="notif_channel_achievement_desc">解锁新成就时通知你</string>
+    <string name="notif_expiry_title">关于「%1$s」</string>
+    <string name="notif_expiry_body">你现在怎么想？</string>
+
+    <!-- ── 通用 ── -->
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="back">返回</string>
+    <string name="loading">加载中</string>
+    <string name="retry">重试</string>
 </resources>

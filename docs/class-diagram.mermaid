@@ -1,0 +1,149 @@
+classDiagram
+    direction TB
+
+    %% ── Room Entities ──
+    class CoolPoolItemEntity {
+        +String id
+        +String title
+        +Double? price
+        +String? category
+        +Int coolPeriodHours
+        +Long createdAt
+        +Long expiresAt
+        +String status
+        +Long? decidedAt
+        +String? decisionReason
+        +String? sourceUrl
+        +Long? archivedAt
+    }
+
+    class EmotionTagEntity {
+        +String id
+        +String name
+        +String? emoji
+        +Boolean isPredefined
+        +String? colorHex
+        +Long? createdAt
+    }
+
+    class CoolPoolItemTagCrossRef {
+        +String itemId
+        +String tagId
+    }
+
+    %% ── DAOs ──
+    class CoolPoolItemDao {
+        +insert(item: CoolPoolItemEntity)
+        +update(item: CoolPoolItemEntity)
+        +delete(item: CoolPoolItemEntity)
+        +getById(id: String): CoolPoolItemWithTags?
+        +getAllCooling(): Flow~List~CoolPoolItemWithTags~~
+        +getAllDecided(): Flow~List~CoolPoolItemWithTags~~
+        +getExpiredCoolingItems(now: Long): List~CoolPoolItemEntity~
+        +getArchivableItems(now: Long): List~CoolPoolItemEntity~
+        +getCountByStatus(status: String): Int
+        +archiveItem(id: String, archivedAt: Long)
+    }
+
+    class EmotionTagDao {
+        +insertAll(tags: List~EmotionTagEntity~)
+        +insertCustom(tag: EmotionTagEntity)
+        +getAll(): Flow~List~EmotionTagEntity~~
+        +getPredefined(): List~EmotionTagEntity~
+        +getCustomTags(): Flow~List~EmotionTagEntity~~
+        +getCustomTagCount(): Int
+        +deleteCustom(tag: EmotionTagEntity)
+        +getByIds(ids: List~String~): List~EmotionTagEntity~
+    }
+
+    %% ── Aggregation Model ──
+    class CoolPoolItemWithTags {
+        +CoolPoolItemEntity item
+        +List~EmotionTagEntity~ tags
+    }
+
+    %% ── Database ──
+    class HuandaoDatabase {
+        +coolPoolItemDao(): CoolPoolItemDao
+        +emotionTagDao(): EmotionTagDao
+        <<abstract>> 
+    }
+
+    %% ── Repositories ──
+    class CoolPoolRepository {
+        +getCoolingItems(): Flow~List~CoolPoolItemWithTags~~
+        +getDecidedItems(): Flow~List~CoolPoolItemWithTags~~
+        +addItem(item: CoolPoolItemEntity, tagIds: List~String~): String
+        +decideItem(id: String, status: String, reason: String?)
+        +resetCooling(id: String, newHours: Int)
+        +deleteItem(id: String)
+        +getExpiredCoolingItems(): List~CoolPoolItemEntity~
+        +archiveCompletedItems()
+    }
+
+    class EmotionTagRepository {
+        +getAllTags(): Flow~List~EmotionTagEntity~~
+        +getPredefinedTags(): List~EmotionTagEntity~
+        +addCustomTag(name: String, emoji: String?): EmotionTagEntity?
+        +canAddCustomTag(): Boolean
+        +deleteCustomTag(id: String)
+    }
+
+    %% ── ViewModels ──
+    class CoolPoolViewModel {
+        +coolingItems: StateFlow~List~CoolPoolItemWithTags~~
+        +isEmpty: StateFlow~Boolean~
+        +loadCoolingItems()
+        +deleteItem(id: String)
+        +decideItemQuickly(id: String, decision: String)
+    }
+
+    class AddItemViewModel {
+        +title: MutableStateFlow~String~
+        +priceText: MutableStateFlow~String~
+        +category: MutableStateFlow~String?~
+        +selectedTagIds: MutableStateFlow~List~String~~
+        +coolPeriodHours: MutableStateFlow~Int~
+        +allTags: StateFlow~List~EmotionTagEntity~~
+        +conversionResults: StateFlow~List~String~~
+        +canSubmit: StateFlow~Boolean~
+        +addItem(): Boolean
+    }
+
+    class DecisionViewModel {
+        +item: StateFlow~CoolPoolItemWithTags?~
+        +loadItem(id: String)
+        +decide(decision: String, reason: String?)
+        +resetCooling(newHours: Int)
+    }
+
+    class HistoryViewModel {
+        +decidedItems: StateFlow~List~CoolPoolItemWithTags~~
+        +loadDecidedItems()
+        +filterByDecision(decision: String?)
+    }
+
+    %% ── Relationships ──
+    HuandaoDatabase *-- CoolPoolItemDao : provides
+    HuandaoDatabase *-- EmotionTagDao : provides
+
+    CoolPoolItemDao ..> CoolPoolItemEntity : operates on
+    CoolPoolItemDao ..> CoolPoolItemTagCrossRef : joins via
+    CoolPoolItemDao ..> CoolPoolItemWithTags : returns
+    EmotionTagDao ..> EmotionTagEntity : operates on
+
+    CoolPoolItemWithTags *-- CoolPoolItemEntity : contains
+    CoolPoolItemWithTags *-- EmotionTagEntity : contains
+
+    CoolPoolItemTagCrossRef --> CoolPoolItemEntity : FK itemId
+    CoolPoolItemTagCrossRef --> EmotionTagEntity : FK tagId
+
+    CoolPoolRepository --> CoolPoolItemDao : depends
+    CoolPoolRepository --> EmotionTagDao : depends
+    EmotionTagRepository --> EmotionTagDao : depends
+
+    CoolPoolViewModel --> CoolPoolRepository : depends
+    AddItemViewModel --> CoolPoolRepository : depends
+    AddItemViewModel --> EmotionTagRepository : depends
+    DecisionViewModel --> CoolPoolRepository : depends
+    HistoryViewModel --> CoolPoolRepository : depends

@@ -1,0 +1,136 @@
+sequenceDiagram
+    actor U as 用户
+    participant CF as CoolPoolFragment
+    participant BS as AddItemBottomSheet
+    participant AVM as AddItemViewModel
+    participant CPR as CoolPoolRepository
+    participant ETR as EmotionTagRepository
+    participant CID as CoolPoolItemDao
+    participant ETD as EmotionTagDao
+    participant DB as Room Database
+    participant CVM as CoolPoolViewModel
+
+    U->>CF: 点击 FAB「+」
+    CF->>BS: show()
+    BS->>AVM: 初始化（加载标签列表）
+    AVM->>ETR: getAllTags()
+    ETR->>ETD: getAll()
+    ETD-->>DB: 查询
+    DB-->>ETD: List~EmotionTagEntity~
+    ETD-->>ETR: Flow emit
+    ETR-->>AVM: 标签列表
+    BS->>U: 展示添加面板
+
+    U->>BS: 输入商品名「机械键盘」
+    U->>BS: 输入金额「399」
+    BS->>AVM: title = "机械键盘", priceText = "399"
+    AVM->>AVM: 实时换算（PriceConverter）
+    AVM-->>BS: 展示换算结果「≈ 26 杯奶茶——供参考」
+
+    U->>BS: 选择情绪标签「被种草了」「奖励自己」
+    BS->>AVM: selectedTagIds更新
+
+    U->>BS: 选择冷静期 72h（默认）
+    U->>BS: 点击「先放一放」
+    BS->>AVM: addItem()
+    AVM->>AVM: 校验（标题非空）
+    AVM->>CPR: addItem(entity, tagIds)
+    CPR->>CID: insert(entity)
+    CID-->>DB: 写入 cool_pool_items
+    CPR->>CID: 批量插入 cross_ref
+    CID-->>DB: 写入 cool_pool_item_tag_cross_ref
+    CPR-->>AVM: 成功
+    AVM-->>BS: 关闭面板
+
+    BS->>CF: dismiss() 回调
+    CF->>CVM: loadCoolingItems() (refresh)
+    CVM->>CPR: getCoolingItems()
+    CPR->>CID: getAllCooling()
+    CID-->>DB: 查询
+    DB-->>CID: Flow emit 新数据
+    CID-->>CPR: Flow~List~CoolPoolItemWithTags~~
+    CPR-->>CVM: StateFlow update
+    CVM-->>CF: 列表刷新，新卡片动画飞入
+    CF->>U: 看到新卡片
+
+    %% ── 分隔 ──
+
+    participant WM as WorkManager
+    participant CEW as CoolingExpiryWorker
+    participant NH as NotificationHelper
+    participant OS as Android System
+
+    Note over WM: PeriodicWork (每 15 分钟检查一次)
+    WM->>CEW: doWork()
+    CEW->>CEW: 检查是否在免打扰时段 (22:00-08:00)
+    alt 在免打扰时段
+        CEW-->>WM: Result.success() (跳过)
+    else 正常时段
+        CEW->>CPR: getExpiredCoolingItems()
+        CPR->>CID: getExpiredCoolingItems(now)
+        CID-->>DB: SELECT WHERE status='cooling' AND expires_at <= now
+        DB-->>CID: 到期条目列表
+        CID-->>CPR: List~CoolPoolItemEntity~
+        CPR-->>CEW: 到期条目
+
+        loop 每个到期条目
+            CEW->>CID: update status='expired'
+            CID-->>DB: UPDATE cool_pool_items SET status='expired'
+            CEW->>NH: sendExpiryNotification(item)
+            NH->>NH: 检查通知开关（SharedPreferences）
+            alt 通知已开启
+                NH->>OS: 构建通知（温和文案，无感叹号）
+                OS->>U: Push 通知：「关于机械键盘，你现在怎么想」
+            end
+        end
+        CEW-->>WM: Result.success()
+    end
+
+    %% ── 分隔 ──
+
+    participant DF as DecisionFragment
+    participant DVM as DecisionViewModel
+
+    alt 路径 A: 左滑快捷决策
+        U->>CF: 左滑卡片 → 点击「我决定买了」
+        CF->>CF: ItemTouchHelper 回调
+        CF->>DVM: 直接 ViewModel 处理
+        Note over CF,DVM: 快捷决策不打开决策引导页
+    else 路径 B: 到期后进入决策引导
+        U->>CF: 点击已到期卡片（status=expired）
+        CF->>DF: navigate(itemId)
+        DF->>DVM: loadItem(itemId)
+        DVM->>CPR: getById(id)
+        CPR->>CID: getById(id)
+        CID-->>DB: JOIN 查询
+        DB-->>CID: CoolPoolItemWithTags
+        CID-->>CPR: CoolPoolItemWithTags
+        CPR-->>DVM: StateFlow emit
+        DVM-->>DF: 展示条目详情 + 决策引导问题
+        
+        DF->>U: 「现在的你还想买吗？」
+        
+        U->>DF: 选择「我还是想买」
+        DF->>DVM: decide("decided_buy", reason?)
+        DVM->>CPR: decideItem(id, "decided_buy", reason)
+        CPR->>CID: update(status, decidedAt, decisionReason)
+        CID-->>DB: UPDATE SET status='decided_buy', decided_at=now
+        CPR-->>DVM: 成功
+        DVM-->>DF: 导航回列表
+        DF->>CF: popBackStack()
+        CF->>CF: Toast「决定了就好」
+        
+        Note over U,DB: 7 天后 ArchiveWorker 自动归档
+    end
+
+    opt 路径 C: 选择「再等等」
+        U->>DF: 选择「再等等」
+        DF->>DVM: resetCooling(72)
+        DVM->>CPR: resetCooling(id, 72)
+        CPR->>CID: update(status='cooling', expiresAt=now+72h)
+        CID-->>DB: UPDATE
+        CPR-->>DVM: 成功
+        DVM-->>DF: 导航回列表
+        DF->>CF: popBackStack()
+        CF->>U: Toast「不急，慢慢想」
+    end

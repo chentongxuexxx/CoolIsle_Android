@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:id="@+id/group_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <!-- 引导文案 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/decision_title"
+            android:textColor="@color/text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/decision_subtitle"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <!-- 条目摘要卡片 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/white"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_decision_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="机械键盘 Cherry MX 红轴" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_decision_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="¥399" />
+
+                    <TextView
+                        android:id="@+id/tv_decision_tags"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="13sp"
+                        tools:text="😫 压力大 · 🌱 被种草了" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_decision_conversion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/conversion_text"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:text="≈ 27 杯奶茶——供参考"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_decision_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/duration_text"
+                    android:textSize="12sp"
+                    tools:text="已缓冲 3 天" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 决策理由输入（可选） -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="@string/decision_reason_hint"
+            app:boxStrokeColor="@color/primary"
+            app:hintTextColor="@color/primary"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:maxLines="3" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 三个等权按钮 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_decide_buy"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/decision_buy"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            app:cornerRadius="12dp"
+            app:backgroundTint="@color/primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_decide_pass"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/decision_pass"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary"
+            app:cornerRadius="12dp"
+            app:backgroundTint="@color/white"
+            app:strokeColor="@color/text_secondary"
+            app:strokeWidth="1dp"
+            style="@style/Widget.Material3.Button.OutlinedButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_decide_wait"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/decision_wait"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary"
+            app:cornerRadius="12dp"
+            app:backgroundTint="@android:color/transparent"
+            style="@style/Widget.Material3.Button.TextButton" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

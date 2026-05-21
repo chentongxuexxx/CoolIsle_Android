@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_cool_pool">
+
+    <!-- Tab 1: 冷静池列表（首页） -->
+    <fragment
+        android:id="@+id/nav_cool_pool"
+        android:name="com.huandao.app.ui.pool.CoolPoolFragment"
+        android:label="@string/nav_cool_pool"
+        tools:layout="@layout/fragment_cool_pool">
+        <action
+            android:id="@+id/action_cool_pool_to_decision"
+            app:destination="@id/nav_decision" />
+        <action
+            android:id="@+id/action_cool_pool_to_history"
+            app:destination="@id/nav_history" />
+    </fragment>
+
+    <!-- 内部：决策引导页 -->
+    <fragment
+        android:id="@+id/nav_decision"
+        android:name="com.huandao.app.ui.decision.DecisionFragment"
+        android:label="@string/decision_title"
+        tools:layout="@layout/fragment_decision">
+        <argument
+            android:name="itemId"
+            app:argType="string" />
+    </fragment>
+
+    <!-- 内部：历史记录页 -->
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="com.huandao.app.ui.history.HistoryFragment"
+        android:label="@string/history_title"
+        tools:layout="@layout/fragment_history" />
+
+    <!-- Tab 2: 洞察（P1 占位） -->
+    <fragment
+        android:id="@+id/nav_insights"
+        android:name="com.huandao.app.ui.insights.InsightsFragment"
+        android:label="@string/nav_insights"
+        tools:layout="@layout/fragment_insights" />
+
+    <!-- Tab 3: 个人中心（P1 占位 + 数据导出） -->
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.huandao.app.ui.profile.ProfileFragment"
+        android:label="@string/nav_profile"
+        tools:layout="@layout/fragment_profile" />
+
+</navigation>

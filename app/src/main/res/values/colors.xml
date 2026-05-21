@@ -1,9 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 品牌色 -->
     <color name="primary">#E8913A</color>
     <color name="primary_dark">#D48030</color>
     <color name="background">#FFF8F0</color>
     <color name="status_bar">#E8913A</color>
+
+    <!-- 文本色 -->
     <color name="text_primary">#2C2C2A</color>
     <color name="text_secondary">#888780</color>
+
+    <!-- 状态色标 -->
+    <color name="cooling_orange">#E8913A</color>
+    <color name="expired_green">#4CAF50</color>
+    <color name="decided_gray">#9E9E9E</color>
+
+    <!-- 情绪标签 -->
+    <color name="tag_bg">#FFF0E0</color>
+    <color name="tag_text">#E8913A</color>
+    <color name="tag_selected_bg">#E8913A</color>
+    <color name="tag_selected_text">#FFFFFF</color>
+
+    <!-- 其他 -->
+    <color name="conversion_text">#999999</color>
+    <color name="duration_text">#999999</color>
+    <color name="divider">#EEEEEE</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- 旧有保留 -->
     <color name="progress_bg">#F5C4B3</color>
+
+    <!-- BottomNav 图标着色（selector） -->
+    <color name="bottom_nav_selected">#E8913A</color>
+    <color name="bottom_nav_unselected">#888780</color>
 </resources>
