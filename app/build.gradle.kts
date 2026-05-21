@@ -3,7 +3,14 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.gms.google-services")
+}
+
+// google-services 插件仅在 google-services.json 存在且为真实文件时加载
+// 本地开发时放置真实文件即可启用 Firebase
+// CI 会自动注入 GOOGLE_SERVICES_JSON Secret
+val gservicesFile = file("google-services.json")
+if (gservicesFile.exists() && gservicesFile.length() > 100) {
+    plugins.apply("com.google.gms.google-services")
 }
 
 // 读取 signing.properties（不存在时不报错，仅用于本地签名）
