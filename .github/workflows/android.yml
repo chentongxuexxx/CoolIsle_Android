@@ -28,9 +28,9 @@ jobs:
         run: |
           # 使用 Git commit SHA 作为 Crashlytics Build ID（用于关联符号表）
           echo "crashlytics.build.id=${{ github.sha }}" >> gradle.properties
-        if: github.sha != ''
+        if: ${{ github.sha != '' }}
 
-      - name: Create signing.properties
+      - name: Create signing.properties (if configured)
         run: |
           cat > app/signing.properties << 'EOF'
           storeFile=${{ vars.KEYSTORE_STORE_FILE }}
@@ -38,38 +38,29 @@ jobs:
           keyAlias=${{ vars.KEYSTORE_KEY_ALIAS }}
           keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}
           EOF
-        if: |
-          vars.KEYSTORE_STORE_FILE != '' &&
-          secrets.KEYSTORE_STORE_PASSWORD != ''
+        if: ${{ vars.KEYSTORE_STORE_FILE != '' }}
 
       - name: Restore keystore from secret (if configured)
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/huandao.keystore
-        if: secrets.KEYSTORE_BASE64 != ''
+        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
 
       - name: Inject google-services.json for Firebase (if configured)
         run: |
           echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > app/google-services.json
-        if: secrets.GOOGLE_SERVICES_JSON != ''
+        if: ${{ secrets.GOOGLE_SERVICES_JSON != '' }}
 
       - name: Build Release APK
         run: ./gradlew assembleRelease --no-daemon
-        if: |
-          vars.KEYSTORE_STORE_FILE != '' &&
-          secrets.KEYSTORE_STORE_PASSWORD != ''
+        if: ${{ vars.KEYSTORE_STORE_FILE != '' }}
 
       - name: Build Debug APK (fallback — no signing)
         run: ./gradlew assembleDebug --no-daemon
-        if: |
-          vars.KEYSTORE_STORE_FILE == '' ||
-          secrets.KEYSTORE_STORE_PASSWORD == ''
+        if: ${{ vars.KEYSTORE_STORE_FILE == '' }}
 
       - name: Upload symbols for Crashlytics (release only)
         run: ./gradlew crashlyticsUploadSymbolsRelease --no-daemon
-        if: |
-          vars.KEYSTORE_STORE_FILE != '' &&
-          secrets.KEYSTORE_STORE_PASSWORD != '' &&
-          secrets.GOOGLE_SERVICES_JSON != ''
+        if: ${{ vars.KEYSTORE_STORE_FILE != '' && secrets.GOOGLE_SERVICES_JSON != '' }}
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
