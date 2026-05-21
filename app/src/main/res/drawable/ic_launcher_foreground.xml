@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 橙色圆角方块（居中，108dp画布，66dp图标，21dp边距） -->
+    <path
+        android:fillColor="#E8913A"
+        android:pathData="M42,26 L66,26 Q72,26 72,32 L72,76 Q72,82 66,82 L42,82 Q36,82 36,76 L36,32 Q36,26 42,26 Z" />
+
+    <!-- 岛屿波浪线：三条弧 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M41,63 Q44,58 47,63 Q50,68 53,63 Q56,58 59,63 Q62,68 65,63"
+        android:strokeWidth="2.5"
+        android:strokeColor="#FFFFFF"
+        android:fillAlpha="0"
+        android:strokeLineCap="round" />
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M41,71 Q44,66 47,71 Q50,76 53,71 Q56,66 59,71 Q62,76 65,71"
+        android:strokeWidth="2.5"
+        android:strokeColor="#FFFFFF"
+        android:fillAlpha="0"
+        android:strokeLineCap="round" />
+
+    <!-- 岛屿主体：三角形山形 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M53,42 L65,63 L41,63 Z" />
+
+</vector>

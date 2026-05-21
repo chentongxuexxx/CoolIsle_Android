@@ -1,0 +1,18 @@
+<resources>
+    <style name="Theme.HuanDao" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:navigationBarColor">@color/background</item>
+    </style>
+    
+    <!-- Splash Screen 主题（Android 12+ 官方 API） -->
+    <style name="Theme.HuanDao.Splash" parent="Theme.SplashScreen">
+        <!-- 启动图标 -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_splash</item>
+        <!-- 背景色 -->
+        <item name="windowSplashScreenBackground">@color/background</item>
+        <!-- Splash 结束后过渡到主主题 -->
+        <item name="postSplashScreenTheme">@style/Theme.HuanDao</item>
+    </style>
+</resources>

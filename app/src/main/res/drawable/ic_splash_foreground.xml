@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 橙色圆角方块 -->
+    <path
+        android:fillColor="#E8913A"
+        android:pathData="M30,30h48v48h-48z" />
+
+    <!-- 岛屿波浪/山形 -->
+    <path
+        android:fillColor="#FFF8F0"
+        android:pathData="M54,42 L66,58 L60,58 L68,68 L40,68 L48,58 L42,58 Z" />
+
+</vector>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">缓岛</string>
+    <string name="app_description">更清醒的自己</string>
+    <string name="web_url">https://t2hyptyq43t3m.ok.kimi.link/</string>
+    <string name="error_title">网络不给力</string>
+    <string name="error_message">请检查网络连接后下拉刷新重试</string>
+    <string name="error_retry">重新加载</string>
+    <string name="share_title">分享到</string>
+</resources>

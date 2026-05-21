@@ -1,0 +1,34 @@
+# =============================================
+# 缓岛 Android App — .gitignore
+# =============================================
+
+# --- Gradle ---
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# --- App build outputs ---
+app/build/
+app/*.keystore
+app/*.keystore.old
+app/signing.properties          # 本地签名配置，含密码，切勿提交
+!.github/workflows/               # GitHub Actions 流水线需要保留
+
+# --- IDE ---
+.idea/
+*.iml
+local.properties
+*.log
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Keystore ---
+*.jks
+*.keystore
+keystore/
+
+# --- Firebase（替换说明见 README）---
+app/google-services.json         # 本地占位用；CI 请通过 Secrets 注入真实文件
+google-services.json             # 如果放在项目根目录

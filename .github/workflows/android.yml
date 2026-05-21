@@ -1,0 +1,84 @@
+name: Build Release APK
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  JAVA_VERSION: "17"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: "temurin"
+          cache: "gradle"
+
+      - name: Set Crashlytics Build ID
+        run: |
+          # 使用 Git commit SHA 作为 Crashlytics Build ID（用于关联符号表）
+          echo "crashlytics.build.id=${{ github.sha }}" >> gradle.properties
+        if: github.sha != ''
+
+      - name: Create signing.properties
+        run: |
+          cat > app/signing.properties << 'EOF'
+          storeFile=${{ vars.KEYSTORE_STORE_FILE }}
+          storePassword=${{ secrets.KEYSTORE_STORE_PASSWORD }}
+          keyAlias=${{ vars.KEYSTORE_KEY_ALIAS }}
+          keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          EOF
+        if: |
+          vars.KEYSTORE_STORE_FILE != '' &&
+          secrets.KEYSTORE_STORE_PASSWORD != ''
+
+      - name: Restore keystore from secret (if configured)
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/huandao.keystore
+        if: secrets.KEYSTORE_BASE64 != ''
+
+      - name: Inject google-services.json for Firebase (if configured)
+        run: |
+          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > app/google-services.json
+        if: secrets.GOOGLE_SERVICES_JSON != ''
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --no-daemon
+        if: |
+          vars.KEYSTORE_STORE_FILE != '' &&
+          secrets.KEYSTORE_STORE_PASSWORD != ''
+
+      - name: Build Debug APK (fallback — no signing)
+        run: ./gradlew assembleDebug --no-daemon
+        if: |
+          vars.KEYSTORE_STORE_FILE == '' ||
+          secrets.KEYSTORE_STORE_PASSWORD == ''
+
+      - name: Upload symbols for Crashlytics (release only)
+        run: ./gradlew crashlyticsUploadSymbolsRelease --no-daemon
+        if: |
+          vars.KEYSTORE_STORE_FILE != '' &&
+          secrets.KEYSTORE_STORE_PASSWORD != '' &&
+          secrets.GOOGLE_SERVICES_JSON != ''
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: huandao-apk
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/apk/debug/*.apk
+          retention-days: 7
+
+      - name: Show APK files
+        run: ls -lh app/build/outputs/apk/**/*.apk
