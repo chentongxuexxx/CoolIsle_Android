@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.huandao.app">
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Android 13+ 通知权限（运行时由用户授权） -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    
+
     <application
-        android:name=".HuanDaoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HuanDao"
         android:usesCleartextTraffic="false">
-        
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -27,21 +26,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- Firebase Cloud Messaging Service -->
-        <service
-            android:name=".HuanDaoFirebaseService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <!-- 桌面快捷方式点击跳转到 App（可选）-->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/primary" />
     </application>
 </manifest>

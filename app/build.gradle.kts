@@ -5,14 +5,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-// google-services 插件仅在 google-services.json 存在且为真实文件时加载
-// 本地开发时放置真实文件即可启用 Firebase
-// CI 会自动注入 GOOGLE_SERVICES_JSON Secret
-val gservicesFile = file("google-services.json")
-if (gservicesFile.exists() && gservicesFile.length() > 100) {
-    plugins.apply("com.google.gms.google-services")
-}
-
 // 读取 signing.properties（不存在时不报错，仅用于本地签名）
 val signingProperties = Properties().apply {
     val file = file("signing.properties")
@@ -74,24 +66,12 @@ android {
     }
 }
 
-// Crashlytics Build ID（用于关联符号表）
-// CI 会通过 gradle.properties 注入，未设置时使用默认值 "unspecified"
-val crashlyticsBuildId: String by rootProject.extra
-
 dependencies {
     implementation("androidx.core:core-ktx:1.13.0")
-    // ---- Splash Screen API（Android 12+ 官方启动屏）----
+    // Splash Screen API（Android 12+ 官方启动屏）
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-
-    // ---- Firebase ----
-    // 如需启用推送和崩溃监控，请在 Firebase Console 创建项目，下载 google-services.json
-    // CI 会自动注入 GOOGLE_SERVICES_JSON Secret
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    implementation("com.google.firebase:firebase-messaging-ktx")
-    // Crashlytics 崩溃监控
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
 }

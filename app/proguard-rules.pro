@@ -1,5 +1,5 @@
 # =============================================
-# 缓岛 App — ProGuard 规则
+# 缓岛 App - ProGuard 规则
 # =============================================
 
 # ---- 通用优化 ----
@@ -27,7 +27,7 @@
 -keep class com.google.android.material.** { *; }
 -dontwarn com.google.android.material.**
 
-# ---- WebView — 保持类名不变 ----
+# ---- WebView - 保持类名不变 ----
 # WebView 通过反射调用 JavaScript 接口，必须保留完整类名
 -keep class com.huandao.app.** { *; }
 -keepclassmembers class com.huandao.app.** { *; }
@@ -59,26 +59,6 @@
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 
-# ---- 广告 / 第三方 SDK（按需取消注释）----
-# -keep class com.google.android.gms.** { *; }
-# -keep class com.google.firebase.** { *; }
-
-# =============================================
-# 第五阶段新增
-# =============================================
-
-# ---- Firebase Crashlytics ----
-# 保留 Crashlytics 相关类，防止被 R8 移除导致崩溃不上报
--keep class com.google.firebase.** { *; }
--keep class com.google.android.gms.** { *; }
--dontwarn com.google.firebase.crashlytics.**
-
 # ---- Splash Screen API ----
-# 保留 SplashScreen 相关类
 -keep class androidx.core.splashscreen.** { *; }
 -dontwarn androidx.core.splashscreen.**
-
-# ---- Firebase Cloud Messaging ----
-# 保留 FCM Service 和 Intent Filter
--keep class com.huandao.app.HuanDaoFirebaseService { *; }
--keep class com.google.firebase.messaging.** { *; }
