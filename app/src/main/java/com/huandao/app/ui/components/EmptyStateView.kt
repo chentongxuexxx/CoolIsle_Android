@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.huandao.app.databinding.ViewEmptyStateBinding
+import com.huandao.app.R
 
 /**
  * 空状态引导视图。

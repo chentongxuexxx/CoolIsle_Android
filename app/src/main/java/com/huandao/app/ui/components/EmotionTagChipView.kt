@@ -3,6 +3,7 @@ package com.huandao.app.ui.components
 import android.content.Context
 import android.view.View
 import com.google.android.material.chip.Chip
+import com.huandao.app.R
 
 /**
  * 情绪标签 Chip 组件工具类。
