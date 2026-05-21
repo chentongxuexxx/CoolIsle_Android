@@ -25,21 +25,16 @@ jobs:
           cache: "gradle"
 
       - name: Set Crashlytics Build ID
-        run: |
-          echo "crashlytics.build.id=${{ github.sha }}" >> gradle.properties
+        run: echo "crashlytics.build.id=${{ github.sha }}" >> gradle.properties
 
       - name: Prepare signing (if credentials exist)
         run: |
           if [[ -n "${{ secrets.KEYSTORE_BASE64 }}" ]]; then
             echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/huandao.keystore
-          fi
-          if [[ -n "${{ secrets.KEYSTORE_STORE_PASSWORD }}" ]]; then
-            cat > app/signing.properties << EOF
-            storeFile=huandao.keystore
-            storePassword=${{ secrets.KEYSTORE_STORE_PASSWORD }}
-            keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}
-            keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}
-            EOF
+            echo "storeFile=huandao.keystore" > app/signing.properties
+            echo "storePassword=${{ secrets.KEYSTORE_STORE_PASSWORD }}" >> app/signing.properties
+            echo "keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}" >> app/signing.properties
+            echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> app/signing.properties
           fi
 
       - name: Inject google-services.json (if secret exists)
